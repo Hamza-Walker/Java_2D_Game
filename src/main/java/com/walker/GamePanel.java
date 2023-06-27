@@ -1,5 +1,7 @@
 package com.walker;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
     final int originalTileSize = 16; // Standard character size: 16x16 tiles
     final int scale = 3; // Compensate for the resolution difference
-    final int tileSize = originalTileSize * scale; // Size of tiles after scaling: 48x48 pixels
+    public final int tileSize = originalTileSize * scale; // Size of tiles after scaling: 48x48 pixels
     final int maxScreenCol = 16;
     final int maxScreenRow = 12; // Ratio is 4:3
     final int screenWidth = tileSize * maxScreenCol; // Screen width: 48 * 16 = 768 pixels
@@ -18,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
+    Player player = new Player(this, keyHandler);
 
     // Set player's default position and speed
     int playerX = 100;
@@ -83,24 +86,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyHandler.upPressed) {
-            playerY -= playerSpeed;
-        } else if (keyHandler.downPressed) {
-            playerY += playerSpeed;
-        } else if (keyHandler.leftPressed) {
-            playerX -= playerSpeed;
-        } else if (keyHandler.rightPressed) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Call the parent's paintComponent method (JPanel)
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize); // Draw the player character
-
+        player.draw(g2);
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using
     }
 }
