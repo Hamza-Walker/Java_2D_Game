@@ -6,37 +6,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-    // SCREEN SETTINGS
-    final int originalTileSize = 16; // Standard character size: 16x16 tiles
-    final int scale = 3; // Compensate for the resolution difference
-    public final int tileSize = originalTileSize * scale; // Size of tiles after scaling: 48x48 pixels
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12; // Ratio is 4:3
-    final int screenWidth = tileSize * maxScreenCol; // Screen width: 48 * 16 = 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // Screen height: 48 * 12 = 576 pixels
-
-    // FPS
-    final int FPS = 60;
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyHandler);
 
-    // Set player's default position and speed
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         this.setBackground(Color.black);
-        this.setDoubleBuffered(true); // Enabling double buffering can improve rendering performance
+        this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
-        this.setFocusable(true); // GamePanel can be focused to receive key input
+        this.setFocusable(true);
     }
 
     public void startGameThread() {
-        gameThread = new Thread(this); // Passing the GamePanel instance to the thread
+        gameThread = new Thread(this); // By passing this to the Thread constructor, you're telling the thread to execute the run() method of the GamePanel instance.
         gameThread.start();
     }
 
@@ -66,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
 //    }
 
     public void run () {
-        double drawInterval = 1000000000.0 / FPS;
+        double drawInterval = 1000000000.0 / Constants.FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -75,7 +60,6 @@ public class GamePanel extends JPanel implements Runnable {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
-
 
             if (delta >= 1) {
                 update();
