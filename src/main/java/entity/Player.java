@@ -43,8 +43,8 @@ public class Player extends Entity {
         }
     }
     public void update (){
-        if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true){
+        if (keyH.upPressed || keyH.downPressed ||
+                keyH.leftPressed || keyH.rightPressed){
 
             if (keyH.upPressed) {
                 direction= "up";
@@ -80,34 +80,34 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "up":
+            case "up" -> {
                 if (spriteNumber == 1) {
                     image = up1;
                 } else if (spriteNumber == 2) {
                     image = up2;
                 }
-                break;
-            case "down":
+            }
+            case "down" -> {
                 if (spriteNumber == 1) {
                     image = down1;
                 } else if (spriteNumber == 2) {
                     image = down2;
                 }
-                break;
-            case "left":
+            }
+            case "left" -> {
                 if (spriteNumber == 1) {
                     image = left1;
                 } else if (spriteNumber == 2) {
                     image = left2;
                 }
-                break;
-            case "right":
+            }
+            case "right" -> {
                 if (spriteNumber == 1) {
                     image = right1;
                 } else if (spriteNumber == 2) {
                     image = right2;
                 }
-                break;
+            }
         }
         g2.drawImage(image, x, y, Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }

@@ -1,12 +1,14 @@
 package com.walker;
 
 import entity.Player;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyHandler);
@@ -77,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g); // Call the parent's paintComponent method (JPanel)
 
         Graphics2D g2 = (Graphics2D) g;
+        tileM.draw(g2);
         player.draw(g2);
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using
     }
