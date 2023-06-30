@@ -25,6 +25,8 @@ public class TileManager {
 
     public void getTileImage() {
         try {
+            tile = new Tile[6]; // Initialize the tile array with the correct size
+
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
 
@@ -46,6 +48,7 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+
 
     public void loadMap( String filePath) {
         try {
@@ -73,26 +76,33 @@ public class TileManager {
         }
     }
 
-    public void draw(Graphics2D g2) {
-        int worldCol = 0;
-        int worldRow = 0;
+        public void draw(Graphics2D g2) {
+            int worldCol = 0;
+            int worldRow = 0;
 
 
-        while (worldCol < Constants.MAX_WORLD_COL && worldRow < Constants.MAX_WORLD_ROW){
-            int tileNum = mapTileNum[worldCol][worldRow];
+            while (worldCol < Constants.MAX_WORLD_COL && worldRow < Constants.MAX_WORLD_ROW){
+                int tileNum = mapTileNum[worldCol][worldRow];
 
-            int worldX = worldCol * Constants.TILE_SIZE;
-            int worldY = worldRow * Constants.TILE_SIZE;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+                int worldX = worldCol * Constants.TILE_SIZE;
+                int worldY = worldRow * Constants.TILE_SIZE;
+                int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            g2.drawImage(tile[tileNum].image,screenX,screenY, Constants.TILE_SIZE,Constants.TILE_SIZE,null);
-            worldCol++;
+                if (    worldX + Constants.TILE_SIZE > gp.player.worldX - gp.player.screenX &&
+                        worldX - Constants.TILE_SIZE < gp.player.worldX + gp.player.screenX &&
+                        worldY + Constants.TILE_SIZE > gp.player.worldY - gp.player.screenY &&
+                        worldY - Constants.TILE_SIZE < gp.player.worldY + gp.player.screenY
+                ){
+                g2.drawImage(tile[tileNum].image,screenX,screenY, Constants.TILE_SIZE,Constants.TILE_SIZE,null);
+                }
 
-            if ( worldCol == Constants.MAX_WORLD_COL){
-                worldCol = 0;
-                worldRow++;
+                worldCol++;
+
+                if ( worldCol == Constants.MAX_WORLD_COL){
+                    worldCol = 0;
+                    worldRow++;
+                }
             }
         }
-    }
 }

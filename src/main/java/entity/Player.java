@@ -22,11 +22,12 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
-        screenX = Constants.SCREEN_HEIGHT/2-(Constants.TILE_SIZE/2);  //position the character in the center of the screen.
+        screenX = Constants.SCREEN_WIDTH/2-(Constants.TILE_SIZE/2);  //position the character in the center of the screen.
         screenY = Constants.SCREEN_HEIGHT/2-(Constants.TILE_SIZE/2);
 
         setDefaultValues();
         getPlayerImage();
+        direction= "down";
     }
 
     public void setDefaultValues () {
@@ -86,35 +87,43 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "up" -> {
+            case "up":
                 if (spriteNumber == 1) {
                     image = up1;
                 } else if (spriteNumber == 2) {
                     image = up2;
                 }
-            }
-            case "down" -> {
+                break;
+            case "down":
                 if (spriteNumber == 1) {
                     image = down1;
                 } else if (spriteNumber == 2) {
                     image = down2;
                 }
-            }
-            case "left" -> {
+                break;
+            case "left":
                 if (spriteNumber == 1) {
                     image = left1;
                 } else if (spriteNumber == 2) {
                     image = left2;
                 }
-            }
-            case "right" -> {
+                break;
+            case "right":
                 if (spriteNumber == 1) {
                     image = right1;
                 } else if (spriteNumber == 2) {
                     image = right2;
                 }
-            }
+                break;
+            default:
+                // Handle the case when direction is not recognized
+                // For example, you can set a default image or throw an exception
+                break;
         }
+
+        if (image != null) {
             g2.drawImage(image, screenX, screenY, Constants.TILE_SIZE, Constants.TILE_SIZE, null);
+        }
     }
+
 }
