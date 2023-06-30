@@ -22,7 +22,7 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
-        screenX = Constants.SCREEN_HEIGHT/2 -(Constants.TILE_SIZE/2);  //position the character in the center of the screen.
+        screenX = Constants.SCREEN_HEIGHT/2-(Constants.TILE_SIZE/2);  //position the character in the center of the screen.
         screenY = Constants.SCREEN_HEIGHT/2-(Constants.TILE_SIZE/2);
 
         setDefaultValues();
