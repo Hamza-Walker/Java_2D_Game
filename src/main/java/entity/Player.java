@@ -25,6 +25,8 @@ public class Player extends Entity {
         screenX = Constants.SCREEN_WIDTH/2-(Constants.TILE_SIZE/2);  //position the character in the center of the screen.
         screenY = Constants.SCREEN_HEIGHT/2-(Constants.TILE_SIZE/2);
 
+        solidArea = new Rectangle(8,8,32,32);
+
         setDefaultValues();
         getPlayerImage();
         direction= "down";
@@ -55,22 +57,29 @@ public class Player extends Entity {
 
             if (keyH.upPressed) {
                 direction= "up";
-                worldY -= speed;
             }
             else if (keyH.downPressed) {
                 direction= "down";
-
-                worldY += speed;
             }
             else if (keyH.leftPressed) {
                 direction= "left";
-
-                worldX -= speed;
             }
             else if (keyH.rightPressed) {
                 direction= "right";
+            }
+            // CHECK TILE COLLISION
+            coalitionOn = false;
+            gp.CD.checkTile(this);
 
-                worldX += speed;
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+
+            if( coalitionOn == false){
+                switch (direction){
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
             }
             spriteCounter++;
             if (spriteCounter > 12){
