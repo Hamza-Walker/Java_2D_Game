@@ -1,6 +1,7 @@
 package com.walker;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -13,6 +14,8 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     public CoalitionDetector CD = new CoalitionDetector(this);
     public Player player = new Player(this, keyHandler);
+    public SuperObject obj[] = new SuperObject[10];
+    public AssetSetter assetSetter = new AssetSetter(this); // set objects on the map
 
 
     public GamePanel() {
@@ -21,6 +24,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    public void setUpGame(){
+        AssetSetter.setObject();
     }
 
     public void startGameThread() {
@@ -80,7 +87,16 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g); // Call the parent's paintComponent method (JPanel)
 
         Graphics2D g2 = (Graphics2D) g;
+        //Tile
         tileM.draw(g2);
+
+        //Object
+        for (int i = 0; i < obj.length; i++) {
+            if(obj[i] != null){
+                obj[i].draw(g2,this);
+            }
+        }
+        //Player
         player.draw(g2);
         g2.dispose(); // Dispose of this graphics context and release any system resources that it is using
     }
